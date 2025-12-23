@@ -1,0 +1,54 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}GetAgro{% endblock %}</title>
+    <link rel="icon" type="image/jpeg" href="{% static 'core/logo.jpg' %}" />
+    <link rel="apple-touch-icon" href="{% static 'core/logo.jpg' %}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body class="min-h-screen bg-gray-50 text-gray-900">
+    <header class="border-b bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <a href="/" class="flex items-center gap-2 text-lg font-semibold">
+          <img src="{% static 'core/logo.jpg' %}" alt="GetAgro" class="h-7 w-7" />
+          <span>GetAgro</span>
+        </a>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/blog/" class="hover:underline">Blog</a>
+          <a href="/contato/" class="hover:underline">Contato</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'accounts:dashboard' %}" class="hover:underline">Dashboard</a>
+            <form method="post" action="{% url 'accounts:logout' %}">
+              {% csrf_token %}
+              <button class="rounded bg-gray-900 px-3 py-1.5 text-white">Sair</button>
+            </form>
+          {% else %}
+            <a href="{% url 'accounts:login' %}" class="rounded bg-gray-900 px-3 py-1.5 text-white">Entrar</a>
+          {% endif %}
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 py-8">
+      {% if messages %}
+        <div class="mb-6 space-y-2">
+          {% for message in messages %}
+            <div class="rounded border bg-white px-4 py-3 text-sm">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-6 text-sm text-gray-600">
+        <div>© {% now 'Y' %} GetAgro</div>
+      </div>
+    </footer>
+  </body>
+</html>

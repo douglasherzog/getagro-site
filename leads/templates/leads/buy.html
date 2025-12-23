@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Comprar gado (Frigorífico) - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="grid gap-8 md:grid-cols-2">
+    <div>
+      <h1 class="text-3xl font-semibold">Sou frigorífico e quero comprar</h1>
+      <p class="mt-2 text-gray-700">Informe sua demanda para encontrarmos oferta disponível.</p>
+
+      {% if whatsapp_url %}
+        <a class="mt-4 inline-block rounded bg-green-600 px-4 py-2 text-white" href="{{ whatsapp_url }}" target="_blank" rel="noopener noreferrer">Falar no WhatsApp</a>
+      {% endif %}
+    </div>
+
+    <div class="rounded-xl border bg-white p-6">
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div>
+          <label class="text-sm font-medium">{{ form.name.label }}</label>
+          <div class="mt-1">{{ form.name }}</div>
+          {% if form.name.errors %}<div class="mt-1 text-sm text-red-600">{{ form.name.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.email.label }}</label>
+          <div class="mt-1">{{ form.email }}</div>
+          {% if form.email.errors %}<div class="mt-1 text-sm text-red-600">{{ form.email.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.phone.label }}</label>
+          <div class="mt-1">{{ form.phone }}</div>
+          {% if form.phone.errors %}<div class="mt-1 text-sm text-red-600">{{ form.phone.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.city_state.label }}</label>
+          <div class="mt-1">{{ form.city_state }}</div>
+          {% if form.city_state.errors %}<div class="mt-1 text-sm text-red-600">{{ form.city_state.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.desired_volume.label }}</label>
+          <div class="mt-1">{{ form.desired_volume }}</div>
+          {% if form.desired_volume.errors %}<div class="mt-1 text-sm text-red-600">{{ form.desired_volume.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.specs.label }}</label>
+          <div class="mt-1">{{ form.specs }}</div>
+          {% if form.specs.errors %}<div class="mt-1 text-sm text-red-600">{{ form.specs.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.timeframe.label }}</label>
+          <div class="mt-1">{{ form.timeframe }}</div>
+          {% if form.timeframe.errors %}<div class="mt-1 text-sm text-red-600">{{ form.timeframe.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.message.label }}</label>
+          <div class="mt-1">{{ form.message }}</div>
+          {% if form.message.errors %}<div class="mt-1 text-sm text-red-600">{{ form.message.errors }}</div>{% endif %}
+        </div>
+        <button class="w-full rounded bg-gray-900 px-4 py-2 text-white" type="submit">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    input, textarea { width: 100%; border: 1px solid rgb(209 213 219); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
+    textarea { min-height: 140px; }
+  </style>
+{% endblock %}

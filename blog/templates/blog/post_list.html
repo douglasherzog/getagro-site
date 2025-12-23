@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="flex items-end justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-semibold">Blog</h1>
+      <p class="mt-2 text-gray-700">Conteúdo e novidades.</p>
+    </div>
+  </div>
+
+  <div class="mt-8 grid gap-4">
+    {% for post in posts %}
+      <a class="block rounded-xl border bg-white p-6 hover:border-gray-400" href="{% url 'blog:post_detail' slug=post.slug %}">
+        <div class="text-sm text-gray-500">{{ post.published_at|date:'d/m/Y' }}</div>
+        <div class="mt-1 text-xl font-semibold">{{ post.title }}</div>
+        {% if post.excerpt %}
+          <div class="mt-2 text-gray-700">{{ post.excerpt }}</div>
+        {% endif %}
+      </a>
+    {% empty %}
+      <div class="rounded-xl border bg-white p-6 text-gray-700">Nenhum post publicado ainda.</div>
+    {% endfor %}
+  </div>
+{% endblock %}
