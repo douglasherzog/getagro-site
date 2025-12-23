@@ -32,3 +32,24 @@ class Lead(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} <{self.email}>"
+
+
+class MessageTemplate(models.Model):
+    class Channel(models.TextChoices):
+        WHATSAPP = "whatsapp", "WhatsApp"
+        EMAIL = "email", "E-mail"
+
+    channel = models.CharField(max_length=20, choices=Channel.choices)
+    title = models.CharField(max_length=160)
+    subject = models.CharField(max_length=200, blank=True)
+    body = models.TextField()
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["channel", "title"]
+
+    def __str__(self) -> str:
+        return f"{self.get_channel_display()}: {self.title}"
