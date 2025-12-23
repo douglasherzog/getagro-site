@@ -22,6 +22,7 @@ class CanonicalHostRedirectMiddleware:
         response = self.get_response(request)
 
         if not settings.DEBUG:
+            response.headers["X-GetAgro-App"] = "1"
             x_robots_tag = response.headers.get("X-Robots-Tag")
             if x_robots_tag and "noindex" in x_robots_tag.lower():
                 response.headers.pop("X-Robots-Tag", None)
