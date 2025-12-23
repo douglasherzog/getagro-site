@@ -18,10 +18,19 @@ from django.contrib import admin
 from django.urls import include, path
 from django.templatetags.static import static
 from django.views.generic.base import RedirectView
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("favicon.ico", RedirectView.as_view(url=static("core/logo.jpg"), permanent=True)),
+    path(
+        "robots.txt",
+        TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+    path(
+        "sitemap.xml",
+        TemplateView.as_view(template_name="sitemap.xml", content_type="application/xml"),
+    ),
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),

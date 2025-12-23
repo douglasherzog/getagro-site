@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://get.agr.br/sitemap.xml
+Sitemap: https://www.get.agr.br/sitemap.xml
