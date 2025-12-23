@@ -24,7 +24,7 @@ def contact(request):
                     f"Telefone: {lead.phone}\n\n"
                     f"Mensagem:\n{lead.message}\n"
                 )
-                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=True)
+                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=False)
 
             messages.success(request, "Mensagem enviada com sucesso.")
             return redirect("leads:contact")
@@ -59,7 +59,7 @@ def sell(request):
                     f"Prazo: {lead.timeframe}\n\n"
                     f"Detalhes:\n{lead.message}\n"
                 )
-                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=True)
+                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=False)
 
             messages.success(request, "Recebemos seus dados. Vamos retornar o quanto antes.")
             return redirect("leads:sell")
@@ -92,7 +92,7 @@ def buy(request):
                     f"Janela de compra: {lead.timeframe}\n\n"
                     f"Observações:\n{lead.message}\n"
                 )
-                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=True)
+                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [settings.CONTACT_TO_EMAIL], fail_silently=False)
 
             messages.success(request, "Recebemos sua demanda. Vamos retornar o quanto antes.")
             return redirect("leads:buy")
