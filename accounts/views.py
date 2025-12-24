@@ -12,6 +12,8 @@ from django.contrib.auth.views import LoginView
 
 from blog.models import Post
 from leads.models import Lead
+from leads.models import Procura
+from listings.models import Listing
 
 from .forms import DocumentAuthenticationForm, SignupForm
 from .models import Profile
@@ -19,18 +21,33 @@ from .models import Profile
 
 @login_required
 def dashboard(request):
-    lead_count = Lead.objects.count()
-    post_count = Post.objects.filter(is_published=True).count()
-
     try:
         profile = request.user.profile
     except Profile.DoesNotExist:
         profile = None
 
+    is_admin = request.user.is_staff or request.user.is_superuser
+    lead_count = Lead.objects.count() if is_admin else None
+    post_count = Post.objects.filter(is_published=True).count() if is_admin else None
+
+    my_listings_count = 0
+    my_procuras_count = 0
+    if profile:
+        if profile.role in (Profile.ROLE_SELLER, Profile.ROLE_BOTH):
+            my_listings_count = Listing.objects.filter(seller_profile=profile).count()
+        if profile.role in (Profile.ROLE_BUYER, Profile.ROLE_BOTH):
+            my_procuras_count = Procura.objects.filter(buyer_profile=profile).count()
+
     return render(
         request,
         "accounts/dashboard.html",
-        {"lead_count": lead_count, "post_count": post_count, "profile": profile},
+        {
+            "lead_count": lead_count,
+            "post_count": post_count,
+            "profile": profile,
+            "my_listings_count": my_listings_count,
+            "my_procuras_count": my_procuras_count,
+        },
     )
 
 
