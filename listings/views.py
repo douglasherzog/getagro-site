@@ -15,7 +15,7 @@ def _require_seller(request):
     except Profile.DoesNotExist:
         return None
 
-    if profile.role != Profile.ROLE_SELLER:
+    if profile.role not in (Profile.ROLE_SELLER, Profile.ROLE_BOTH):
         return None
 
     return profile

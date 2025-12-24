@@ -23,6 +23,8 @@ from django.views.generic import TemplateView
 
 from .sitemaps import sitemaps
 
+from accounts.views import BuyGateView, SellGateView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("favicon.ico", RedirectView.as_view(url=static("core/logo.jpg"), permanent=True)),
@@ -35,6 +37,8 @@ urlpatterns = [
         sitemap,
         {"sitemaps": sitemaps},
     ),
+    path("comprar/", BuyGateView.as_view(), name="buy_gate"),
+    path("vender/", SellGateView.as_view(), name="sell_gate"),
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),
