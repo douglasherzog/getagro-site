@@ -37,6 +37,12 @@
       </div>
 
       <div>
+        <label class="text-sm font-medium">CEP</label>
+        <div class="mt-1">{{ form.cep }}</div>
+        {% if form.cep.errors %}<div class="mt-1 text-sm text-red-600">{{ form.cep.errors }}</div>{% endif %}
+      </div>
+
+      <div>
         <label class="text-sm font-medium">Endereço</label>
         <div class="mt-1">{{ form.address }}</div>
         {% if form.address.errors %}<div class="mt-1 text-sm text-red-600">{{ form.address.errors }}</div>{% endif %}
@@ -89,4 +95,73 @@
     #id_role { display: flex; gap: 1rem; }
     #id_role label { display: inline-flex; align-items: center; gap: 0.5rem; }
   </style>
+
+  <script>
+    (function () {
+      const cepInput = document.getElementById('id_cep');
+      const addressInput = document.getElementById('id_address');
+      const cityInput = document.getElementById('id_city');
+      const stateInput = document.getElementById('id_state');
+
+      if (!cepInput) return;
+
+      function normalizeCep(value) {
+        return (value || '').replace(/\D/g, '');
+      }
+
+      async function fetchCep(cep) {
+        const resp = await fetch(`https://viacep.com.br/ws/${cep}/json/`, { method: 'GET' });
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        if (data && data.erro) return null;
+        return data;
+      }
+
+      function setIfEmpty(input, value) {
+        if (!input) return;
+        if (input.value && input.value.trim().length > 0) return;
+        input.value = value || '';
+      }
+
+      let lastCep = null;
+      let debounceTimer = null;
+
+      async function handleCepChange() {
+        const cep = normalizeCep(cepInput.value);
+        if (cep.length !== 8) return;
+        if (cep === lastCep) return;
+        lastCep = cep;
+
+        try {
+          const data = await fetchCep(cep);
+          if (!data) return;
+
+          const address = [data.logradouro, data.bairro].filter(Boolean).join(' - ');
+          setIfEmpty(addressInput, address);
+          setIfEmpty(cityInput, data.localidade);
+          setIfEmpty(stateInput, (data.uf || '').toUpperCase());
+        } catch (e) {
+          return;
+        }
+      }
+
+      cepInput.addEventListener('input', function () {
+        const normalized = normalizeCep(cepInput.value);
+        if (normalized !== cepInput.value) {
+          const cursor = cepInput.selectionStart;
+          cepInput.value = normalized;
+          if (typeof cursor === 'number') {
+            cepInput.setSelectionRange(cursor, cursor);
+          }
+        }
+
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(handleCepChange, 400);
+      });
+
+      cepInput.addEventListener('blur', function () {
+        handleCepChange();
+      });
+    })();
+  </script>
 {% endblock %}

@@ -14,6 +14,7 @@ class SignupForm(forms.Form):
     document = forms.CharField(label="CPF/CNPJ")
     email = forms.EmailField(label="E-mail")
     phone = forms.CharField(label="Telefone/WhatsApp")
+    cep = forms.CharField(label="CEP")
     address = forms.CharField(label="Endereço")
     city = forms.CharField(label="Cidade")
     state = forms.CharField(label="Estado", max_length=2)
@@ -35,6 +36,9 @@ class SignupForm(forms.Form):
     )
 
     def _normalize_document(self, raw: str) -> str:
+        return "".join(ch for ch in (raw or "") if ch.isdigit())
+
+    def _normalize_cep(self, raw: str) -> str:
         return "".join(ch for ch in (raw or "") if ch.isdigit())
 
     def _validate_cpf(self, cpf: str) -> bool:
@@ -88,6 +92,13 @@ class SignupForm(forms.Form):
 
         return doc
 
+    def clean_cep(self):
+        raw = (self.cleaned_data.get("cep") or "").strip()
+        cep = self._normalize_cep(raw)
+        if len(cep) != 8:
+            raise forms.ValidationError("CEP inválido.")
+        return cep
+
     def clean_state(self):
         state = self.cleaned_data["state"].strip().upper()
         if len(state) != 2:
@@ -138,6 +149,7 @@ class SignupForm(forms.Form):
                 document=doc,
                 email=self.cleaned_data["email"],
                 phone=self.cleaned_data["phone"],
+                cep=self.cleaned_data["cep"],
                 address=self.cleaned_data["address"],
                 city=self.cleaned_data["city"],
                 state=self.cleaned_data["state"],
@@ -155,6 +167,7 @@ class SignupForm(forms.Form):
                 "document": doc,
                 "email": self.cleaned_data["email"],
                 "phone": self.cleaned_data["phone"],
+                "cep": self.cleaned_data["cep"],
                 "address": self.cleaned_data["address"],
                 "city": self.cleaned_data["city"],
                 "state": self.cleaned_data["state"],
@@ -167,6 +180,7 @@ class SignupForm(forms.Form):
         profile.full_name = self.cleaned_data["full_name"]
         profile.email = self.cleaned_data["email"]
         profile.phone = self.cleaned_data["phone"]
+        profile.cep = self.cleaned_data["cep"]
         profile.address = self.cleaned_data["address"]
         profile.city = self.cleaned_data["city"]
         profile.state = self.cleaned_data["state"]

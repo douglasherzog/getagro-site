@@ -21,6 +21,7 @@ class Profile(models.Model):
     document = models.CharField(max_length=14, unique=True)
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=40, blank=True)
+    cep = models.CharField(max_length=8, blank=True, default="")
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=120)
     state = models.CharField(max_length=2)
