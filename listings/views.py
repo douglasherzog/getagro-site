@@ -9,6 +9,16 @@ from .forms import ListingForm
 from .models import Listing
 
 
+def public_offers(request):
+    listings = Listing.objects.all().order_by("-created_at")
+    return render(request, "listings/public_offers.html", {"listings": listings})
+
+
+def public_offer_detail(request, pk: int):
+    listing = get_object_or_404(Listing, pk=pk)
+    return render(request, "listings/public_offer_detail.html", {"listing": listing})
+
+
 def _require_seller(request):
     try:
         profile = request.user.profile

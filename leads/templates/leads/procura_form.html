@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Publicar procura - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="mx-auto max-w-2xl rounded-xl border bg-white p-6">
+    <h1 class="text-2xl font-semibold">Publicar procura</h1>
+    <p class="mt-2 text-sm text-gray-600">Descreva a demanda de compra. Seus dados pessoais não aparecem publicamente.</p>
+
+    <form method="post" class="mt-6 space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="text-sm font-medium">{{ form.title.label }}</label>
+        <div class="mt-1">{{ form.title }}</div>
+        {% if form.title.errors %}<div class="mt-1 text-sm text-red-600">{{ form.title.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.city_state.label }}</label>
+        <div class="mt-1">{{ form.city_state }}</div>
+        {% if form.city_state.errors %}<div class="mt-1 text-sm text-red-600">{{ form.city_state.errors }}</div>{% endif %}
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="text-sm font-medium">{{ form.heads.label }}</label>
+          <div class="mt-1">{{ form.heads }}</div>
+          {% if form.heads.errors %}<div class="mt-1 text-sm text-red-600">{{ form.heads.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">{{ form.avg_weight_kg.label }}</label>
+          <div class="mt-1">{{ form.avg_weight_kg }}</div>
+          {% if form.avg_weight_kg.errors %}<div class="mt-1 text-sm text-red-600">{{ form.avg_weight_kg.errors }}</div>{% endif %}
+        </div>
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.animal_category.label }}</label>
+        <div class="mt-1">{{ form.animal_category }}</div>
+        {% if form.animal_category.errors %}<div class="mt-1 text-sm text-red-600">{{ form.animal_category.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.breed.label }}</label>
+        <div class="mt-1">{{ form.breed }}</div>
+        {% if form.breed.errors %}<div class="mt-1 text-sm text-red-600">{{ form.breed.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.desired_volume.label }}</label>
+        <div class="mt-1">{{ form.desired_volume }}</div>
+        {% if form.desired_volume.errors %}<div class="mt-1 text-sm text-red-600">{{ form.desired_volume.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.timeframe.label }}</label>
+        <div class="mt-1">{{ form.timeframe }}</div>
+        {% if form.timeframe.errors %}<div class="mt-1 text-sm text-red-600">{{ form.timeframe.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">{{ form.specs.label }}</label>
+        <div class="mt-1">{{ form.specs }}</div>
+        {% if form.specs.errors %}<div class="mt-1 text-sm text-red-600">{{ form.specs.errors }}</div>{% endif %}
+      </div>
+
+      <button class="w-full rounded bg-gray-900 px-4 py-2 text-white" type="submit">Publicar</button>
+    </form>
+  </div>
+
+  <style>
+    input, textarea { width: 100%; border: 1px solid rgb(209 213 219); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
+    textarea { min-height: 140px; }
+  </style>
+{% endblock %}

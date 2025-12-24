@@ -17,7 +17,7 @@ services:
       - key: DEFAULT_FROM_EMAIL
         value: "no-reply@getagro.site"
       - key: CONTACT_TO_EMAIL
-        value: "douglasherzog@gmail.com"
+        value: "getagrors@gmail.com"
       - key: WHATSAPP_URL
         value: ""
       - key: DATABASE_URL

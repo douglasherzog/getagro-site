@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Lead
+from .models import Lead, Procura
 
 
 class ContactForm(forms.ModelForm):
@@ -111,3 +111,35 @@ class BuyerLeadForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class ProcuraForm(forms.ModelForm):
+    class Meta:
+        model = Procura
+        fields = [
+            "title",
+            "city_state",
+            "heads",
+            "avg_weight_kg",
+            "animal_category",
+            "breed",
+            "desired_volume",
+            "timeframe",
+            "specs",
+        ]
+        widgets = {
+            "heads": forms.NumberInput(attrs={"min": 1}),
+            "avg_weight_kg": forms.NumberInput(attrs={"min": 1}),
+            "specs": forms.Textarea(attrs={"rows": 6}),
+        }
+        labels = {
+            "title": "Título",
+            "city_state": "Região (Cidade/UF)",
+            "heads": "Quantidade de cabeças (opcional)",
+            "avg_weight_kg": "Peso médio (kg) (opcional)",
+            "animal_category": "Categoria (opcional)",
+            "breed": "Raça (opcional)",
+            "desired_volume": "Volume desejado (opcional)",
+            "timeframe": "Janela/Prazo (opcional)",
+            "specs": "Especificações (opcional)",
+        }

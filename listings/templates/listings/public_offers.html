@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Ofertas de bovinos - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-semibold">Ofertas de bovinos</h1>
+      <p class="mt-2 text-gray-700">Veja ofertas publicadas. Os dados pessoais ficam ocultos e a negociação é mediada pela GetAgro.</p>
+    </div>
+  </div>
+
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+    {% for l in listings %}
+      <a href="/ofertas/{{ l.pk }}/" class="block rounded-xl border bg-white p-5 hover:border-gray-400">
+        <div class="text-xs text-gray-500">{{ l.get_listing_type_display }} • {{ l.created_at|date:'d/m/Y' }}</div>
+        <div class="mt-1 text-lg font-semibold">{{ l.title }}</div>
+        <div class="mt-2 text-sm text-gray-700">
+          {% if l.animal_category %}<div><span class="text-gray-500">Categoria:</span> {{ l.animal_category }}</div>{% endif %}
+          {% if l.heads %}<div><span class="text-gray-500">Cabeças:</span> {{ l.heads }}</div>{% endif %}
+          {% if l.avg_weight_kg %}<div><span class="text-gray-500">Peso médio:</span> {{ l.avg_weight_kg }} kg</div>{% endif %}
+          {% if l.breed %}<div><span class="text-gray-500">Raça:</span> {{ l.breed }}</div>{% endif %}
+        </div>
+      </a>
+    {% empty %}
+      <div class="rounded-xl border bg-white p-6 text-gray-700">Ainda não há ofertas publicadas.</div>
+    {% endfor %}
+  </div>
+{% endblock %}

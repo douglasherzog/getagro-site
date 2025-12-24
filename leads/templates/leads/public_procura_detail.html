@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Procura - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="mx-auto max-w-3xl">
+    <a class="text-sm hover:underline" href="/procuras/">← Voltar para procuras</a>
+
+    <div class="mt-4 rounded-xl border bg-white p-6">
+      <div class="text-xs text-gray-500">{{ procura.created_at|date:'d/m/Y H:i' }}</div>
+      <h1 class="mt-2 text-2xl font-semibold">{{ procura.title }}</h1>
+
+      {% if procura.specs %}
+        <div class="mt-4 whitespace-pre-wrap text-gray-800">{{ procura.specs }}</div>
+      {% endif %}
+
+      <div class="mt-6 grid gap-3 text-sm text-gray-700 sm:grid-cols-2">
+        {% if procura.city_state %}<div><span class="text-gray-500">Região:</span> {{ procura.city_state }}</div>{% endif %}
+        {% if procura.animal_category %}<div><span class="text-gray-500">Categoria:</span> {{ procura.animal_category }}</div>{% endif %}
+        {% if procura.breed %}<div><span class="text-gray-500">Raça:</span> {{ procura.breed }}</div>{% endif %}
+        {% if procura.heads %}<div><span class="text-gray-500">Cabeças:</span> {{ procura.heads }}</div>{% endif %}
+        {% if procura.avg_weight_kg %}<div><span class="text-gray-500">Peso médio:</span> {{ procura.avg_weight_kg }} kg</div>{% endif %}
+        {% if procura.desired_volume %}<div><span class="text-gray-500">Volume desejado:</span> {{ procura.desired_volume }}</div>{% endif %}
+        {% if procura.timeframe %}<div><span class="text-gray-500">Janela:</span> {{ procura.timeframe }}</div>{% endif %}
+      </div>
+
+      <div class="mt-8 rounded-lg border bg-gray-50 p-4">
+        <div class="font-medium">Tenho interesse</div>
+        <div class="mt-1 text-sm text-gray-700">Se você tem oferta compatível, envie seu interesse. Os dados pessoais ficam ocultos e a intermediação é feita pela GetAgro.</div>
+
+        {% if user.is_authenticated %}
+          <form method="post" action="/interesses/procura/{{ procura.pk }}/" class="mt-4 space-y-3">
+            {% csrf_token %}
+            <div>
+              <label class="text-sm font-medium">Mensagem (opcional)</label>
+              <textarea name="message" rows="4" class="mt-1 w-full rounded-lg border p-3"></textarea>
+            </div>
+            <button class="w-full rounded bg-gray-900 px-4 py-2 text-white" type="submit">Enviar interesse</button>
+          </form>
+        {% else %}
+          <div class="mt-4 text-sm text-gray-700">Você precisa entrar para enviar interesse.</div>
+          <a class="mt-3 inline-flex w-full items-center justify-center rounded bg-gray-900 px-4 py-2 text-white" href="/accounts/login/?next=/procuras/{{ procura.pk }}/">Entrar</a>
+          <a class="mt-2 inline-flex w-full items-center justify-center rounded border bg-white px-4 py-2" href="/accounts/cadastro/?role=seller&next=/procuras/{{ procura.pk }}/">Criar conta</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
