@@ -11,5 +11,4 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("dashboard/", views.dashboard, name="dashboard"),
     path("negociantes/", views.negociantes, name="negociantes"),
-    path("publicacoes/", include(("listings.urls", "listings"), namespace="listings")),
 ]

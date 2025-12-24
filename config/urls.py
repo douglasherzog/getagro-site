@@ -39,6 +39,7 @@ urlpatterns = [
     ),
     path("comprar/", BuyGateView.as_view(), name="buy_gate"),
     path("vender/", SellGateView.as_view(), name="sell_gate"),
+    path("accounts/publicacoes/", include(("listings.urls", "listings"), namespace="listings")),
     path('', include('core.urls')),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),
