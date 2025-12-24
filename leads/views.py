@@ -186,6 +186,9 @@ def interest_offer(request, pk: int):
     listing = get_object_or_404(Listing, pk=pk)
     profile = _get_profile_safe(request.user)
 
+    if profile is None or profile.role not in (Profile.ROLE_BUYER, Profile.ROLE_BOTH):
+        return redirect(f"/accounts/cadastro/?role=buyer&next=/ofertas/{pk}/")
+
     msg = (request.POST.get("message") or "").strip()
     lead_message = msg or "(sem mensagem)"
 
@@ -211,6 +214,9 @@ def interest_procura(request, pk: int):
 
     procura = get_object_or_404(Procura, pk=pk, is_active=True)
     profile = _get_profile_safe(request.user)
+
+    if profile is None or profile.role not in (Profile.ROLE_SELLER, Profile.ROLE_BOTH):
+        return redirect(f"/accounts/cadastro/?role=seller&next=/procuras/{pk}/")
 
     msg = (request.POST.get("message") or "").strip()
     lead_message = msg or "(sem mensagem)"
