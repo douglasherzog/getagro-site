@@ -6,12 +6,14 @@
   <h1 class="text-3xl font-semibold">Dashboard</h1>
   <p class="mt-2 text-gray-700">Você está logado como <span class="font-medium">{{ user.username }}</span>.</p>
 
-  {% if profile and (profile.role == 'seller' or profile.role == 'both') %}
-    <div class="mt-4">
-      <a href="/accounts/publicacoes/" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">
-        Minhas publicações
-      </a>
-    </div>
+  {% if profile %}
+    {% if profile.role == 'seller' or profile.role == 'both' %}
+      <div class="mt-4">
+        <a href="/accounts/publicacoes/" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">
+          Minhas publicações
+        </a>
+      </div>
+    {% endif %}
   {% endif %}
 
   {% if user.is_staff or user.is_superuser %}
