@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="mx-auto max-w-lg rounded-xl border bg-white p-6">
+    <h1 class="text-2xl font-semibold">Criar conta</h1>
+    <p class="mt-2 text-sm text-gray-600">Escolha se você é comprador ou vendedor e preencha seus dados.</p>
+
+    <form method="post" class="mt-6 space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="text-sm font-medium">Usuário</label>
+        <div class="mt-1">{{ form.username }}</div>
+        {% if form.username.errors %}<div class="mt-1 text-sm text-red-600">{{ form.username.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Nome</label>
+        <div class="mt-1">{{ form.full_name }}</div>
+        {% if form.full_name.errors %}<div class="mt-1 text-sm text-red-600">{{ form.full_name.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">CPF</label>
+        <div class="mt-1">{{ form.cpf }}</div>
+        {% if form.cpf.errors %}<div class="mt-1 text-sm text-red-600">{{ form.cpf.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Endereço</label>
+        <div class="mt-1">{{ form.address }}</div>
+        {% if form.address.errors %}<div class="mt-1 text-sm text-red-600">{{ form.address.errors }}</div>{% endif %}
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="sm:col-span-2">
+          <label class="text-sm font-medium">Cidade</label>
+          <div class="mt-1">{{ form.city }}</div>
+          {% if form.city.errors %}<div class="mt-1 text-sm text-red-600">{{ form.city.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">UF</label>
+          <div class="mt-1">{{ form.state }}</div>
+          {% if form.state.errors %}<div class="mt-1 text-sm text-red-600">{{ form.state.errors }}</div>{% endif %}
+        </div>
+      </div>
+
+      <div>
+        <div class="text-sm font-medium">Tipo de conta</div>
+        <div class="mt-2 space-y-2">{{ form.role }}</div>
+        {% if form.role.errors %}<div class="mt-1 text-sm text-red-600">{{ form.role.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Senha</label>
+        <div class="mt-1">{{ form.password1 }}</div>
+        {% if form.password1.errors %}<div class="mt-1 text-sm text-red-600">{{ form.password1.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Confirmar senha</label>
+        <div class="mt-1">{{ form.password2 }}</div>
+        {% if form.password2.errors %}<div class="mt-1 text-sm text-red-600">{{ form.password2.errors }}</div>{% endif %}
+      </div>
+
+      <button class="w-full rounded bg-gray-900 px-4 py-2 text-white" type="submit">Criar conta</button>
+
+      <div class="text-center text-sm text-gray-600">
+        Já tem conta?
+        <a class="font-medium text-gray-900 hover:underline" href="{% url 'accounts:login' %}">Entrar</a>
+      </div>
+    </form>
+  </div>
+
+  <style>
+    input { width: 100%; border: 1px solid rgb(209 213 219); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
+    ul.errorlist { margin-top: 0.25rem; }
+    ul.errorlist li { color: rgb(220 38 38); font-size: 0.875rem; }
+    #id_role { display: flex; gap: 1rem; }
+    #id_role label { display: inline-flex; align-items: center; gap: 0.5rem; }
+  </style>
+{% endblock %}

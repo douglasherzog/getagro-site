@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Negociantes - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-semibold">Negociantes</h1>
+      <p class="mt-2 text-gray-700">Lista de compradores e vendedores cadastrados.</p>
+    </div>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-xl border bg-white">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 font-medium">Nome</th>
+          <th class="px-4 py-3 font-medium">CPF</th>
+          <th class="px-4 py-3 font-medium">Tipo</th>
+          <th class="px-4 py-3 font-medium">Cidade/UF</th>
+          <th class="px-4 py-3 font-medium">Endereço</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        {% for p in profiles %}
+          <tr>
+            <td class="px-4 py-3">{{ p.full_name }}</td>
+            <td class="px-4 py-3">{{ p.cpf }}</td>
+            <td class="px-4 py-3">{{ p.get_role_display }}</td>
+            <td class="px-4 py-3">{{ p.city }}/{{ p.state }}</td>
+            <td class="px-4 py-3">{{ p.address }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="px-4 py-6 text-center text-gray-600" colspan="5">Nenhum negociante cadastrado ainda.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

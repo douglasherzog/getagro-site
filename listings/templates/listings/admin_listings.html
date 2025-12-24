@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Publicações dos vendedores - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-semibold">Publicações dos vendedores</h1>
+      <p class="mt-2 text-gray-700">Visão administrativa (somente superusuário).</p>
+    </div>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-xl border bg-white">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 font-medium">Criado em</th>
+          <th class="px-4 py-3 font-medium">Vendedor</th>
+          <th class="px-4 py-3 font-medium">CPF</th>
+          <th class="px-4 py-3 font-medium">Tipo</th>
+          <th class="px-4 py-3 font-medium">Título</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        {% for l in listings %}
+          <tr>
+            <td class="px-4 py-3">{{ l.created_at|date:'d/m/Y H:i' }}</td>
+            <td class="px-4 py-3">{{ l.seller_profile.full_name }}</td>
+            <td class="px-4 py-3">{{ l.seller_profile.cpf }}</td>
+            <td class="px-4 py-3">{{ l.get_listing_type_display }}</td>
+            <td class="px-4 py-3">{{ l.title }}</td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="px-4 py-6 text-center text-gray-600" colspan="5">Nenhuma publicação cadastrada ainda.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

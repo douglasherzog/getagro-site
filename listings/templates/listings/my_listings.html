@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Minhas publicações - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-semibold">Minhas publicações</h1>
+      <p class="mt-2 text-gray-700">Cadastre lotes ou um animal individual. Você pode criar quantas publicações quiser.</p>
+    </div>
+    <a href="{% url 'listings:listing_create' %}" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">Nova publicação</a>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-xl border bg-white">
+    <table class="min-w-full text-left text-sm">
+      <thead class="border-b bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 font-medium">Tipo</th>
+          <th class="px-4 py-3 font-medium">Título</th>
+          <th class="px-4 py-3 font-medium">Criado em</th>
+          <th class="px-4 py-3 font-medium"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        {% for l in listings %}
+          <tr>
+            <td class="px-4 py-3">{{ l.get_listing_type_display }}</td>
+            <td class="px-4 py-3">{{ l.title }}</td>
+            <td class="px-4 py-3">{{ l.created_at|date:'d/m/Y H:i' }}</td>
+            <td class="px-4 py-3 text-right">
+              <a class="mr-3 hover:underline" href="{% url 'listings:listing_edit' l.pk %}">Editar</a>
+              <a class="hover:underline text-red-700" href="{% url 'listings:listing_delete' l.pk %}">Excluir</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td class="px-4 py-6 text-center text-gray-600" colspan="4">Você ainda não criou publicações.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    input, select, textarea { width: 100%; border: 1px solid rgb(209 213 219); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
+  </style>
+{% endblock %}

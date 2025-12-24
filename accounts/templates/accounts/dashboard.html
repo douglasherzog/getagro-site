@@ -6,10 +6,26 @@
   <h1 class="text-3xl font-semibold">Dashboard</h1>
   <p class="mt-2 text-gray-700">Você está logado como <span class="font-medium">{{ user.username }}</span>.</p>
 
+  {% if user.profile.role == 'seller' %}
+    <div class="mt-4">
+      <a href="/accounts/publicacoes/" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">
+        Minhas publicações
+      </a>
+    </div>
+  {% endif %}
+
   {% if user.is_staff or user.is_superuser %}
     <div class="mt-4">
       <a href="/admin/" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">
         Admin Django
+      </a>
+    </div>
+  {% endif %}
+
+  {% if user.is_superuser %}
+    <div class="mt-4">
+      <a href="/accounts/publicacoes/admin/" class="inline-flex items-center rounded bg-gray-900 px-4 py-2 text-sm font-medium text-white">
+        Publicações dos vendedores
       </a>
     </div>
   {% endif %}

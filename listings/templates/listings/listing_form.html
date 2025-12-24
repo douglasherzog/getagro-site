@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if mode == 'edit' %}Editar publicação{% else %}Nova publicação{% endif %} - GetAgro{% endblock %}
+
+{% block content %}
+  <div class="mx-auto max-w-2xl rounded-xl border bg-white p-6">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-semibold">{% if mode == 'edit' %}Editar publicação{% else %}Nova publicação{% endif %}</h1>
+        <p class="mt-2 text-sm text-gray-600">Preencha o básico. Você pode criar várias publicações.</p>
+      </div>
+      <a class="text-sm hover:underline" href="{% url 'listings:my_listings' %}">Voltar</a>
+    </div>
+
+    <form method="post" class="mt-6 space-y-4">
+      {% csrf_token %}
+
+      <div>
+        <label class="text-sm font-medium">Tipo</label>
+        <div class="mt-1">{{ form.listing_type }}</div>
+        {% if form.listing_type.errors %}<div class="mt-1 text-sm text-red-600">{{ form.listing_type.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Título</label>
+        <div class="mt-1">{{ form.title }}</div>
+        {% if form.title.errors %}<div class="mt-1 text-sm text-red-600">{{ form.title.errors }}</div>{% endif %}
+      </div>
+
+      <div>
+        <label class="text-sm font-medium">Descrição (opcional)</label>
+        <div class="mt-1">{{ form.description }}</div>
+        {% if form.description.errors %}<div class="mt-1 text-sm text-red-600">{{ form.description.errors }}</div>{% endif %}
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="text-sm font-medium">Quantidade de cabeças (opcional)</label>
+          <div class="mt-1">{{ form.heads }}</div>
+          {% if form.heads.errors %}<div class="mt-1 text-sm text-red-600">{{ form.heads.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">Peso médio (kg) (opcional)</label>
+          <div class="mt-1">{{ form.avg_weight_kg }}</div>
+          {% if form.avg_weight_kg.errors %}<div class="mt-1 text-sm text-red-600">{{ form.avg_weight_kg.errors }}</div>{% endif %}
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="text-sm font-medium">Categoria (opcional)</label>
+          <div class="mt-1">{{ form.animal_category }}</div>
+          {% if form.animal_category.errors %}<div class="mt-1 text-sm text-red-600">{{ form.animal_category.errors }}</div>{% endif %}
+        </div>
+        <div>
+          <label class="text-sm font-medium">Raça (opcional)</label>
+          <div class="mt-1">{{ form.breed }}</div>
+          {% if form.breed.errors %}<div class="mt-1 text-sm text-red-600">{{ form.breed.errors }}</div>{% endif %}
+        </div>
+      </div>
+
+      <button class="w-full rounded bg-gray-900 px-4 py-2 text-white" type="submit">Salvar</button>
+    </form>
+  </div>
+
+  <style>
+    input, select, textarea { width: 100%; border: 1px solid rgb(209 213 219); border-radius: 0.5rem; padding: 0.5rem 0.75rem; }
+  </style>
+{% endblock %}

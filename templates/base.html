@@ -43,6 +43,7 @@
               <button class="rounded bg-gray-900 px-3 py-1.5 text-white">Sair</button>
             </form>
           {% else %}
+            <a href="{% url 'accounts:signup' %}" class="hover:underline">Cadastrar</a>
             <a href="{% url 'accounts:login' %}" class="rounded bg-gray-900 px-3 py-1.5 text-white">Entrar</a>
           {% endif %}
         </nav>
